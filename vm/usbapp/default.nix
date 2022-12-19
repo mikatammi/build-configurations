@@ -5,9 +5,9 @@
 #
 # Don't work due to "new" VMs implementation restrictions 
 
-{ config ? import ../../../spectrum/nix/eval-config.nix {} }:
+{ config ? import ../../../spectrum/nix/eval-config.nix {}, make-vm }:
 
-import ../../../spectrum/vm/make-vm.nix { inherit config; } {
+make-vm {
   providers.net = [ "netvm" ];
   run = config.pkgs.pkgsStatic.callPackage (
     { writeScript, bash, usbutils }:

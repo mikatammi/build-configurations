@@ -2,9 +2,9 @@
 # SPDX-FileCopyrightText: 2022 Alyssa Ross <hi@alyssa.is><
 # SPDX-FileCopyrightText: 2022 Unikie
 
-{ config }:
+{ config, make-vm }:
 
-import ../../../spectrum/vm/make-vm.nix { inherit config; } {
+make-vm {
     wayland = true;
     run = config.pkgs.callPackage (
       { writeScript, zathura, wayland-proxy-virtwl }:

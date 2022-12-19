@@ -1,12 +1,16 @@
 # SPDX-FileCopyrightText: 2022 Unikie
 
-{ config ? import ../../../spectrum/nix/eval-config.nix {} }:
+{ spectrum ? ../../../spectrum
+, config ? import (spectrum + "/nix/eval-config.nix") {}
+, hostKernel ? null
+}:
 
 let
   inherit (config) pkgs;
-  appvm-zathura = pkgs.callPackage ../../vm/zathura { inherit config; };
-  usbvm = pkgs.callPackage ../../vm/usb { inherit config; };
-  usbappvm = pkgs.callPackage ../../vm/usbapp {inherit config; };
+  make-vm = import (spectrum + "/vm/make-vm.nix") { inherit config; };
+  appvm-zathura = pkgs.callPackage ../../vm/zathura { make-vm = make-vm; inherit config; };
+  usbvm = pkgs.callPackage ../../vm/usb { spectrum = spectrum ; inherit config; };
+  usbappvm = pkgs.callPackage ../../vm/usbapp { make-vm = make-vm; inherit config; };
 
   myextpart = with pkgs; vmTools.runInLinuxVM (
     stdenv.mkDerivation {

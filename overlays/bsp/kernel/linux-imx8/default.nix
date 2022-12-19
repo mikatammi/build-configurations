@@ -4,7 +4,6 @@ with pkgs;
 
 buildLinux (args // rec {
   version = "5.15.32";
-  nxp_ref = "lf-5.15.y";
 
   # modDirVersion needs to be x.y.z, will automatically add .0 if needed
   modDirVersion = version;
@@ -40,8 +39,10 @@ buildLinux (args // rec {
     USBIP_VUDC m
   '';
 
-  src = builtins.fetchGit {
+  # nxp_ref = "lf-5.15.y";
+  src = fetchgit {
     url = "https://source.codeaurora.org/external/imx/linux-imx";
-    ref = nxp_ref;
+    rev = "fa6c3168595c02bd9d5366fcc28c9e7304947a3d";
+    sha256 = "sha256-Z24CpePoP28tBumTGc8ZUm/5WghuhtO2jvPOKtNaYGA=";
   };
 } // (args.argsOverride or { }))

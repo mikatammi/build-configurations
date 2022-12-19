@@ -2,7 +2,8 @@
 # SPDX-FileCopyrightText: 2021-2022 Alyssa Ross <hi@alyssa.is>
 # SPDX-FileCopyrightText: 2022 Unikie
 
-{ config ? import ../../../spectrum/nix/eval-config.nix {}
+{ spectrum ? ../../../spectrum
+, config ? import ../../../spectrum/nix/eval-config.nix {}
 , terminfo ? config.pkgs.foot.terminfo
 }:
 
@@ -17,7 +18,7 @@ config.pkgs.pkgsStatic.callPackage (
 let
   inherit (lib) cleanSource cleanSourceWith concatMapStringsSep hasSuffix;
 
-  scripts = import ../../../spectrum/scripts { inherit config; };
+  scripts = import (spectrum + "/scripts") { inherit config; };
 
   connman = connmanMinimal;
 
